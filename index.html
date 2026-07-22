@@ -2,1113 +2,575 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Range Session — Driver &amp; Hybrid</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Range Session 8 · Tempo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 :root {
-  --cream: #F7F4EF;
-  --white: #FFFFFF;
-  --ink: #111111;
-  --ink-mid: #444444;
-  --ink-light: #888888;
-  --rule: #DDDDDD;
-  --green: #1A6B3C;
-  --green-pale: #EAF3EE;
-  --amber: #B8600A;
-  --amber-pale: #FDF3E7;
-  --red: #B81A1A;
-  --red-pale: #FAEAEA;
-  --blue: #1A3F6B;
-  --blue-pale: #EAF0F8;
-}
-
-body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  min-height: 100vh;
-}
-
-/* ─── HEADER ─── */
-.site-header {
-  background: var(--ink);
-  padding: 0 20px;
-}
-
-.header-inner {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 18px 0 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.coach-tag {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 4px;
-}
-
-.session-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  line-height: 1;
-}
-
-.session-meta {
-  text-align: right;
-}
-
-.session-balls {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 42px;
-  font-weight: 800;
-  color: #FFFFFF;
-  line-height: 1;
-}
-
-.session-balls-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* ─── PROGRESS BAR ─── */
-.progress-bar-wrap {
-  background: var(--ink);
-  padding: 0 20px 16px;
-}
-
-.progress-bar-inner {
-  max-width: 600px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.progress-track {
-  flex: 1;
-  height: 3px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: #4CAF7D;
-  border-radius: 2px;
-  transition: width 0.3s ease;
-  width: 0%;
-}
-
-.progress-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-  font-weight: 500;
-  white-space: nowrap;
-  letter-spacing: 0.06em;
-  font-family: 'Barlow Condensed', sans-serif;
-}
-
-/* ─── INSIGHT STRIP ─── */
-.insight-strip {
-  background: var(--blue);
-  padding: 14px 20px;
-}
-
-.insight-inner {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.insight-eyebrow {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 8px;
-}
-
-.insight-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.insight-stat {
-  background: rgba(255,255,255,0.06);
-  padding: 10px 12px;
-  text-align: center;
-}
-
-.insight-stat-num {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-
-.insight-stat-label {
-  font-size: 10px;
-  color: rgba(255,255,255,0.45);
-  line-height: 1.3;
-}
-
-/* ─── MAIN CONTENT ─── */
-.main {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px 16px 60px;
-}
-
-/* ─── PHASE BLOCK ─── */
-.phase {
-  background: var(--white);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-}
-
-.phase.completed {
-  opacity: 0.65;
-}
-
-.phase-header {
-  display: flex;
-  align-items: stretch;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.phase-number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  flex-shrink: 0;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 28px;
-  font-weight: 800;
-  color: rgba(255,255,255,0.9);
-}
-
-.phase-header-text {
-  flex: 1;
-  padding: 14px 14px 14px 0;
-}
-
-.phase-eyebrow {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.phase-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--ink);
-  line-height: 1.1;
-}
-
-.phase-detail {
-  font-size: 11px;
-  color: var(--ink-light);
-  margin-top: 2px;
-  font-weight: 500;
-}
-
-.phase-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 12px 14px;
-  gap: 6px;
-}
-
-.phase-balls-badge {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  padding: 2px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-
-.phase-chevron {
-  font-size: 18px;
-  color: var(--ink-light);
-  transition: transform 0.2s;
-  line-height: 1;
-}
-
-.phase.open .phase-chevron { transform: rotate(180deg); }
-
-/* ─── PHASE BODY ─── */
-.phase-body {
-  display: none;
-  border-top: 1px solid var(--rule);
-}
-
-.phase.open .phase-body { display: block; }
-
-/* ─── SETUP GRID ─── */
-.setup-section {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--rule);
-}
-
-.section-label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-light);
-  margin-bottom: 10px;
-}
-
-.setup-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.setup-item {
-  background: var(--cream);
-  border-radius: 6px;
-  padding: 9px 10px;
-  border-left: 3px solid var(--rule);
-}
-
-.setup-item-label {
-  font-size: 10px;
-  color: var(--ink-light);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 600;
-  margin-bottom: 2px;
-}
-
-.setup-item-val {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  line-height: 1.2;
-}
-
-.setup-item-note {
-  font-size: 10px;
-  color: var(--ink-light);
-  margin-top: 2px;
-  line-height: 1.3;
-}
-
-/* ─── DRILLS SECTION ─── */
-.drills-section {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--rule);
-}
-
-.drill-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.drill-item {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.drill-bullet {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-  font-size: 10px;
-  font-weight: 700;
-  color: white;
-  font-family: 'Barlow Condensed', sans-serif;
-}
-
-.drill-text {
-  font-size: 13px;
-  color: var(--ink-mid);
-  line-height: 1.5;
-  flex: 1;
-}
-
-.drill-text strong {
-  color: var(--ink);
-  font-weight: 600;
-}
-
-/* ─── TRACKER ─── */
-.tracker-section {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--rule);
-  background: var(--cream);
-}
-
-.tracker-dots {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 8px;
-}
-
-.t-dot {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--white);
-  border: 1.5px solid var(--rule);
-  cursor: pointer;
-  transition: all 0.12s;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.t-dot.hit {
-  background: var(--green);
-  border-color: var(--green);
-}
-
-.tracker-count {
-  font-size: 12px;
-  color: var(--ink-light);
-  font-weight: 500;
-}
-
-.tracker-count span {
-  color: var(--green);
-  font-weight: 700;
-}
-
-/* ─── CHECKPOINTS ─── */
-.checkpoints-section {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.checkpoint {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  background: var(--green-pale);
-  border-left: 3px solid var(--green);
-  border-radius: 0 6px 6px 0;
-  padding: 9px 11px;
-}
-
-.checkpoint-icon {
-  font-size: 14px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.checkpoint-text {
-  font-size: 12px;
-  color: var(--ink-mid);
-  line-height: 1.5;
-}
-
-.checkpoint-text strong {
-  color: var(--green);
-  font-weight: 600;
-}
-
-/* ─── RESULT BOX ─── */
-.result-section {
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.result-box {
-  border-radius: 6px;
-  padding: 10px 12px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.result-box-label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.result-box.target { background: var(--green-pale); border: 1px solid #B8D9C5; }
-.result-box.target .result-box-label { color: var(--green); }
-.result-box.target { color: #2A5C3F; }
-
-.result-box.warn { background: var(--amber-pale); border: 1px solid #E5C08A; }
-.result-box.warn .result-box-label { color: var(--amber); }
-.result-box.warn { color: #7A420A; }
-
-.result-box.info { background: var(--blue-pale); border: 1px solid #B0C8E5; }
-.result-box.info .result-box-label { color: var(--blue); }
-.result-box.info { color: #1A3F6B; }
-
-/* ─── COMPLETE BUTTON ─── */
-.complete-btn-wrap {
-  padding: 14px 16px;
-  border-top: 1px solid var(--rule);
-}
-
-.complete-btn {
-  width: 100%;
-  padding: 12px;
-  background: var(--ink);
-  color: white;
-  border: none;
-  border-radius: 7px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.complete-btn:active { background: #333; }
-.phase.completed .complete-btn { background: var(--green); }
-.phase.completed .complete-btn::before { content: '✓  '; }
-
-/* ─── DONE BANNER ─── */
-.done-banner {
-  display: none;
-  background: var(--ink);
-  border-radius: 10px;
-  padding: 24px 20px;
-  text-align: center;
-  margin-top: 8px;
-}
-
-.done-banner.show { display: block; }
-
-.done-num {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 64px;
-  font-weight: 800;
-  color: #4CAF7D;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.done-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: white;
-  letter-spacing: 0.04em;
-  margin-bottom: 10px;
-}
-
-.done-body {
-  font-size: 13px;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.6;
-}
-
-.done-body strong { color: rgba(255,255,255,0.8); }
-
-/* ─── RESET ─── */
-.reset-wrap {
-  text-align: center;
-  margin-top: 16px;
-  padding-bottom: 20px;
-}
-
-.reset-btn {
-  background: none;
-  border: 1.5px solid var(--rule);
-  border-radius: 7px;
-  color: var(--ink-light);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 9px 20px;
-  cursor: pointer;
-}
-
+  --cream:#F7F4EF; --white:#FFFFFF; --ink:#111111; --ink-mid:#444444; --ink-light:#888888;
+  --rule:#DDDDDD; --rule-dark:#CCCCCC;
+  --green:#1A6B3C; --green-pale:#EAF3EE;
+  --red:#B81A1A; --red-pale:#FAEAEA;
+  --amber:#96540A; --amber-pale:#FDF3E7;
+  --blue:#1A3F6B; --blue-pale:#EAF0F8;
+  --teal:#0D6B6B; --teal-pale:#E6F4F4;
+}
+html { background:var(--cream); }
+body { background:var(--cream); color:var(--ink); font-family:'Inter',sans-serif; font-size:14px; min-height:100vh; padding-bottom:50px; }
+
+/* HEADER */
+.header { background:var(--teal); }
+.header-top { padding:16px 16px 12px; }
+.h-eyebrow { font-size:9px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:4px; }
+.h-title { font-family:'Barlow Condensed',sans-serif; font-size:40px; font-weight:800; text-transform:uppercase; letter-spacing:0.02em; color:#fff; line-height:0.95; margin-bottom:4px; }
+.h-sub { font-size:10px; color:rgba(255,255,255,0.55); font-weight:500; line-height:1.5; }
+.h-divider { display:flex; flex-direction:column; gap:2.5px; padding:8px 0; }
+.h-rule { height:2px; }
+.h-rule:nth-child(1) { background:rgba(255,255,255,0.85); }
+.h-rule:nth-child(2) { background:#E8FF00; }
+.h-rule:nth-child(3) { background:rgba(255,255,255,0.85); }
+.h-stats { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(255,255,255,0.15); }
+.hst { padding:8px 0; text-align:center; border-right:1px solid rgba(255,255,255,0.15); }
+.hst:last-child { border-right:none; }
+.hst-val { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; color:#fff; line-height:1; }
+.hst-lbl { font-size:8px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:2px; }
+
+/* PROGRESS */
+.prog-wrap { background:var(--teal); padding:0 16px 12px; }
+.prog-row { display:flex; align-items:center; gap:10px; }
+.prog-track { flex:1; height:3px; background:rgba(255,255,255,0.2); border-radius:2px; overflow:hidden; }
+.prog-fill { height:100%; background:#E8FF00; border-radius:2px; transition:width 0.3s; width:0%; }
+.prog-lbl { font-size:9px; color:rgba(255,255,255,0.45); font-weight:600; white-space:nowrap; letter-spacing:0.06em; font-family:'Barlow Condensed',sans-serif; }
+
+/* DATA INSIGHT */
+.insight { background:var(--ink); padding:14px 16px; }
+.ins-eyebrow { font-size:8px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:9px; }
+.ins-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.ins-item { background:rgba(255,255,255,0.06); border-radius:5px; padding:8px 10px; }
+.ins-val { font-family:'Barlow Condensed',sans-serif; font-size:19px; font-weight:700; line-height:1; }
+.ins-lbl { font-size:9px; color:rgba(255,255,255,0.4); margin-top:2px; line-height:1.3; }
+
+/* MAIN */
+.main { padding:14px 14px 0; max-width:540px; margin:0 auto; }
+
+/* TEMPO CARD */
+.tempo-card { background:var(--white); border:1px solid var(--rule); border-radius:8px; padding:14px; margin-bottom:14px; }
+.tc-title { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--teal); margin-bottom:10px; }
+.tc-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+.tc-item { background:var(--cream); border-radius:5px; padding:9px 10px; text-align:center; }
+.tc-num { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:700; line-height:1; }
+.tc-desc { font-size:10px; color:var(--ink-light); margin-top:2px; line-height:1.3; }
+.tc-body { font-size:12px; color:var(--ink-mid); line-height:1.6; }
+.tc-body strong { color:var(--ink); font-weight:600; }
+
+/* METRONOME BOX */
+.metro-box { background:var(--teal-pale); border:1px solid rgba(13,107,107,0.2); border-radius:6px; padding:11px 13px; margin-bottom:14px; }
+.metro-title { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal); margin-bottom:7px; }
+.metro-body { font-size:12px; color:#0D4040; line-height:1.6; }
+.metro-body strong { color:var(--teal); font-weight:600; }
+.count-visual { display:flex; gap:6px; align-items:center; margin:10px 0 6px; justify-content:center; flex-wrap:wrap; }
+.count-beat { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; color:var(--teal); }
+.count-pause { font-size:14px; color:var(--ink-light); }
+.count-label { font-size:10px; color:var(--ink-light); text-align:center; letter-spacing:0.06em; }
+
+/* PHASE */
+.phase { background:var(--white); border:1px solid var(--rule); border-radius:8px; margin-bottom:10px; overflow:hidden; }
+.phase.done { opacity:0.6; background:var(--green-pale); border-color:rgba(26,107,60,0.25); }
+
+.phase-hdr { display:flex; align-items:stretch; cursor:pointer; user-select:none; }
+.phase-num-block { display:flex; flex-direction:column; align-items:center; justify-content:center; width:52px; flex-shrink:0; padding:12px 0; }
+.phase-n { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:800; color:#fff; line-height:1; }
+.phase-nl { font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.65); margin-top:2px; }
+
+.phase-info { flex:1; padding:10px 12px; }
+.phase-tag { display:inline-block; font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:2px 7px; border-radius:3px; margin-bottom:4px; }
+.phase-title { font-family:'Barlow Condensed',sans-serif; font-size:19px; font-weight:700; text-transform:uppercase; letter-spacing:0.02em; color:var(--ink); line-height:1.1; margin-bottom:2px; }
+.phase.done .phase-title { text-decoration:line-through; color:var(--ink-light); }
+.phase-sub { font-size:10px; color:var(--ink-light); line-height:1.4; }
+
+.phase-right { display:flex; flex-direction:column; align-items:flex-end; justify-content:center; padding:10px 14px; gap:6px; flex-shrink:0; }
+.cb { width:24px; height:24px; border-radius:50%; border:2px solid var(--rule-dark); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.15s; background:var(--white); flex-shrink:0; }
+.phase.done .cb { background:var(--green); border-color:var(--green); }
+.cb svg { opacity:0; transition:opacity 0.15s; }
+.phase.done .cb svg { opacity:1; }
+.chev { font-size:15px; color:var(--ink-light); transition:transform 0.15s; }
+.phase.open .chev { transform:rotate(180deg); }
+
+.phase-body { display:none; border-top:1px solid var(--rule); }
+.phase.open .phase-body { display:block; }
+
+/* BODY INNER */
+.bsec { padding:12px 14px; border-bottom:1px solid var(--rule); }
+.bsec:last-child { border-bottom:none; }
+.sec-lbl { font-size:8px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-light); margin-bottom:9px; }
+
+/* BULLETS */
+.bullets { list-style:none; display:flex; flex-direction:column; gap:8px; }
+.bullets li { display:flex; gap:8px; font-size:12px; color:var(--ink-mid); line-height:1.55; }
+.bul-icon { flex-shrink:0; font-size:13px; margin-top:1px; }
+.bullets li strong { color:var(--ink); font-weight:600; }
+
+/* SETUP GRID */
+.setup-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.si { background:var(--cream); border-radius:5px; padding:8px 10px; border-left:3px solid var(--rule-dark); }
+.si-lbl { font-size:8px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-light); margin-bottom:2px; }
+.si-val { font-size:13px; font-weight:600; color:var(--ink); line-height:1.2; }
+.si-note { font-size:9px; color:var(--ink-light); margin-top:2px; line-height:1.3; }
+
+/* TEMPO SCALE */
+.tempo-scale { display:flex; align-items:center; gap:0; margin:10px 0; border:1px solid var(--rule); border-radius:6px; overflow:hidden; }
+.ts-item { flex:1; padding:8px 4px; text-align:center; border-right:1px solid var(--rule); }
+.ts-item:last-child { border-right:none; }
+.ts-pct { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; line-height:1; }
+.ts-lbl { font-size:9px; color:var(--ink-light); margin-top:2px; line-height:1.2; }
+
+/* TRACKER */
+.tracker { background:var(--cream); border-radius:6px; padding:10px 12px; }
+.t-lbl { font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-light); margin-bottom:7px; }
+.dots { display:flex; flex-wrap:wrap; gap:4px; }
+.dot { width:18px; height:18px; border-radius:50%; background:var(--white); border:1.5px solid var(--rule); cursor:pointer; transition:all 0.12s; }
+.dot.hit { background:var(--teal); border-color:var(--teal); }
+.t-count { font-size:11px; color:var(--ink-light); margin-top:6px; }
+.t-count span { color:var(--teal); font-weight:600; }
+
+/* BOXES */
+.bx { border-radius:6px; padding:9px 11px; font-size:12px; line-height:1.6; margin-top:8px; }
+.bx-lbl { font-size:8px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:4px; }
+.bx-green { background:var(--green-pale); border:1px solid rgba(26,107,60,0.2); color:#1A4B2A; }
+.bx-green .bx-lbl { color:var(--green); }
+.bx-teal { background:var(--teal-pale); border:1px solid rgba(13,107,107,0.2); color:#0D4040; }
+.bx-teal .bx-lbl { color:var(--teal); }
+.bx-amber { background:var(--amber-pale); border:1px solid rgba(150,84,10,0.2); color:#6B3A0A; }
+.bx-amber .bx-lbl { color:var(--amber); }
+.bx-blue { background:var(--blue-pale); border:1px solid rgba(26,63,107,0.2); color:#1A3A5C; }
+.bx-blue .bx-lbl { color:var(--blue); }
+.bx-red { background:var(--red-pale); border:1px solid rgba(184,26,26,0.2); color:#6B1010; }
+.bx-red .bx-lbl { color:var(--red); }
+
+/* MILESTONE */
+.milestone { background:var(--teal-pale); border:1px solid rgba(13,107,107,0.15); border-radius:6px; padding:8px 11px; font-size:12px; color:#0D4040; line-height:1.5; display:flex; gap:7px; margin-top:8px; }
+
+/* DONE */
+.done-banner { display:none; background:var(--teal); border-radius:8px; padding:22px 20px; text-align:center; margin-top:14px; }
+.done-banner.show { display:block; }
+.done-icon { font-size:32px; margin-bottom:6px; }
+.done-title { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:#fff; margin-bottom:6px; }
+.done-body { font-size:12px; color:rgba(255,255,255,0.65); line-height:1.6; }
+.done-body strong { color:rgba(255,255,255,0.9); }
+
+.reset-wrap { text-align:center; margin-top:14px; }
+.reset-btn { background:none; border:1.5px solid var(--rule); border-radius:6px; color:var(--ink-light); font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:9px 20px; cursor:pointer; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="site-header">
-  <div class="header-inner">
-    <div>
-      <div class="coach-tag">Range Session Plan</div>
-      <div class="session-title">Driver &amp;<br>Hybrid</div>
+<div class="header">
+  <div class="header-top">
+    <div class="h-eyebrow">Range Session 8</div>
+    <div class="h-title">Smooth<br>It Out</div>
+    <div class="h-sub">Tempo · fluidity · let the club do the work · 85 balls</div>
+  </div>
+  <div class="h-divider"><div class="h-rule"></div><div class="h-rule"></div><div class="h-rule"></div></div>
+  <div class="h-stats">
+    <div class="hst"><div class="hst-val">85</div><div class="hst-lbl">Balls</div></div>
+    <div class="hst"><div class="hst-val">107</div><div class="hst-lbl">Last round</div></div>
+    <div class="hst"><div class="hst-val">70%</div><div class="hst-lbl">Effort ceiling</div></div>
+    <div class="hst"><div class="hst-val">~99</div><div class="hst-lbl">Round target</div></div>
+  </div>
+</div>
+
+<div class="prog-wrap">
+  <div class="prog-row">
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+    <div class="prog-lbl" id="progLbl">0 / 5 phases</div>
+  </div>
+</div>
+
+<div class="insight">
+  <div class="ins-eyebrow">What the data says about lashing it</div>
+  <div class="ins-grid">
+    <div class="ins-item">
+      <div class="ins-val" style="color:#69F0AE;">2.68°</div>
+      <div class="ins-lbl">Driver FTP at 88–93 mph · the controlled range</div>
     </div>
-    <div class="session-meta">
-      <div class="session-balls">80</div>
-      <div class="session-balls-label">balls total</div>
+    <div class="ins-item">
+      <div class="ins-val" style="color:#FF8A80;">5.38°</div>
+      <div class="ins-lbl">Driver FTP at 93+ mph · lashing it</div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-val" style="color:#69F0AE;">75.4 mph</div>
+      <div class="ins-lbl">PW speed on your 5 best struck balls</div>
+    </div>
+    <div class="ins-item">
+      <div class="ins-val" style="color:#FF8A80;">77.9 mph</div>
+      <div class="ins-lbl">PW speed overall — faster = worse strike</div>
     </div>
   </div>
 </div>
 
-<!-- PROGRESS -->
-<div class="progress-bar-wrap">
-  <div class="progress-bar-inner">
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-label" id="progressLabel">0 / 4 phases</div>
-  </div>
-</div>
-
-<!-- DATA STRIP -->
-<div class="insight-strip">
-  <div class="insight-inner">
-    <div class="insight-eyebrow">Your data — why this session</div>
-    <div class="insight-stats">
-      <div class="insight-stat">
-        <div class="insight-stat-num" style="color:#4CAF7D;">18 yds</div>
-        <div class="insight-stat-label">offline when face is neutral</div>
-      </div>
-      <div class="insight-stat">
-        <div class="insight-stat-num" style="color:#E57373;">78 yds</div>
-        <div class="insight-stat-label">offline when face is open</div>
-      </div>
-      <div class="insight-stat">
-        <div class="insight-stat-num" style="color:#FFB74D;">8.09°</div>
-        <div class="insight-stat-label">FTP at max effort — worse</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MAIN -->
 <div class="main">
 
-  <!-- PHASE 1 -->
-  <div class="phase" id="phase1">
-    <div class="phase-header" onclick="togglePhase('phase1')">
-      <div class="phase-number" style="background:#1A6B3C;">1</div>
-      <div class="phase-header-text">
-        <div class="phase-eyebrow" style="color:#1A6B3C;">Warm Up</div>
-        <div class="phase-name">7 Iron</div>
-        <div class="phase-detail">Load the pattern before everything else</div>
+  <!-- WHAT THIS SESSION IS ABOUT -->
+  <div class="tempo-card">
+    <div class="tc-title">The Tempo Principle · Your Data Proves It</div>
+    <div class="tc-grid">
+      <div class="tc-item">
+        <div class="tc-num" style="color:var(--teal);">26 yds</div>
+        <div class="tc-desc">extra carry from better contact on 9 iron best vs worst 10 shots</div>
       </div>
-      <div class="phase-actions">
-        <div class="phase-balls-badge" style="background:#EAF3EE;color:#1A6B3C;">10 balls</div>
-        <div class="phase-chevron">▾</div>
+      <div class="tc-item">
+        <div class="tc-num" style="color:var(--green);">+1.5 mph</div>
+        <div class="tc-desc">speed difference between your best and worst 9 iron strikes</div>
       </div>
     </div>
+    <div class="tc-body">
+      Your best 9 iron shots carry <strong>26 yards further</strong> than your worst — on virtually the same club speed. The difference isn't how hard you swing. It's where you catch the ball. A fluid swing that finds the centre of the face every time beats a hard swing that catches it thin or off the toe. Today is about building a tempo that lets your body find the sweet spot consistently — not about hitting it harder.
+    </div>
+  </div>
 
+  <!-- TEMPO FRAMEWORK -->
+  <div class="metro-box">
+    <div class="metro-title">🎵 The 3-1 Tempo Framework</div>
+    <div class="metro-body">
+      Tour players consistently swing at a <strong>3:1 backswing to downswing ratio</strong> — three counts back, one count through. This is the rhythm that creates lag, builds power naturally, and stops the lash. Use this as your mental metronome throughout today.
+    </div>
+    <div class="count-visual">
+      <span class="count-beat">ONE</span>
+      <span class="count-pause">·</span>
+      <span class="count-beat">TWO</span>
+      <span class="count-pause">·</span>
+      <span class="count-beat">THREE</span>
+      <span class="count-pause">—</span>
+      <span class="count-beat" style="color:var(--red);">GO</span>
+    </div>
+    <div class="count-label">Back on 1, 2, 3 — then smooth through on GO</div>
+    <div class="metro-body" style="margin-top:8px;">
+      The key feeling: the backswing should feel <strong>unhurried</strong>. If you feel like you're going too slow — you're probably at the right speed. If the transition feels rushed — that's the lash. Pause at the top for one beat before firing.
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase" id="p1">
+    <div class="phase-hdr" onclick="tog('1')">
+      <div class="phase-num-block" style="background:var(--teal);">
+        <div class="phase-n">1</div><div class="phase-nl">Warm Up</div>
+      </div>
+      <div class="phase-info">
+        <div class="phase-tag" style="background:var(--teal-pale);color:var(--teal);">9 Iron · Tempo Loader</div>
+        <div class="phase-title">Load the rhythm — not a warm up shot</div>
+        <div class="phase-sub">15 balls · 50–60% · 3-1 count on every swing</div>
+      </div>
+      <div class="phase-right">
+        <div class="cb" onclick="chk(event,'1')"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chev">▾</div>
+      </div>
+    </div>
     <div class="phase-body">
-      <div class="drills-section">
-        <div class="section-label">What to do</div>
-        <ul class="drill-list">
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#1A6B3C;">1</div>
-            <div class="drill-text"><strong>Grip check before every ball.</strong> 2.5 knuckles visible on left hand. Both V's pointing to right shoulder.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#1A6B3C;">2</div>
-            <div class="drill-text"><strong>Hold the face slightly through impact.</strong> Back of left hand stays facing the target a fraction longer. Your 7 iron was overclosing at -4.3° last session.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#1A6B3C;">3</div>
-            <div class="drill-text"><strong>60% effort only.</strong> Elbow tuck on the way down, right shoulder under and through. Loading a feeling — not hitting for distance.</div>
-          </li>
+      <div class="bsec">
+        <div class="sec-lbl">The feel to build</div>
+        <ul class="bullets">
+          <li><span class="bul-icon">1️⃣</span><div><strong>Grip check before every ball.</strong> 2.5 knuckles, V's to right shoulder. Non-negotiable for every phase today.</div></li>
+          <li><span class="bul-icon">🎵</span><div>Say the count aloud if it helps — <strong>one, two, three, go.</strong> The backswing is the three counts. The downswing is the one count. If your downswing feels slow — it's correct.</div></li>
+          <li><span class="bul-icon">🎯</span><div>50–60% effort only. <strong>You are not trying to hit these far.</strong> You are loading a feeling. Contact quality not carry distance is the measure.</div></li>
+          <li><span class="bul-icon">👋</span><div>Right shoulder under and through on every swing. Elbow tuck on the way down. Divot after the ball.</div></li>
         </ul>
-      </div>
-
-      <div class="result-section">
-        <div class="result-box target">
-          <div class="result-box-label">Move on when</div>
-          FTP is consistently 0–2° by ball 8. If not there, hit 5 more. Do not move to the hybrid until this is locked in — it's the reference feeling for everything that follows.
-        </div>
-        <div class="result-box warn">
-          <div class="result-box-label">If FTP is drifting below -2°</div>
-          The face is overclosing. Hold it slightly longer through impact and reduce grip pressure to 4/10.
+        <div class="bx bx-teal">
+          <div class="bx-lbl">What good feels like</div>
+          The ball should feel like it jumps off the face rather than being struck — a compressed, solid sensation rather than a hit. At 50% effort a pure 9 iron will still carry 100+ yards. If you're carrying less than that consistently the tempo or contact is off, not the effort level.
         </div>
       </div>
-
-      <div class="complete-btn-wrap">
-        <button class="complete-btn" onclick="completePhase('phase1')">Mark Phase Complete</button>
+      <div class="bsec">
+        <div class="tracker">
+          <div class="t-lbl">Ball tracker</div>
+          <div class="dots" id="t1"></div>
+          <div class="t-count">Hit <span id="c1">0</span> of 15</div>
+        </div>
+        <div class="milestone"><span>🎯</span><div>Move on when the 3-1 rhythm feels automatic rather than forced. If you're still counting aloud on ball 12 that's fine — the point is the feeling, not the counting.</div></div>
       </div>
     </div>
   </div>
 
   <!-- PHASE 2 -->
-  <div class="phase" id="phase2">
-    <div class="phase-header" onclick="togglePhase('phase2')">
-      <div class="phase-number" style="background:#B8600A;">2</div>
-      <div class="phase-header-text">
-        <div class="phase-eyebrow" style="color:#B8600A;">Face Control</div>
-        <div class="phase-name">4 Hybrid</div>
-        <div class="phase-detail">Find neutral — stop the swing between hook and slice</div>
+  <div class="phase" id="p2">
+    <div class="phase-hdr" onclick="tog('2')">
+      <div class="phase-num-block" style="background:var(--green);">
+        <div class="phase-n">2</div><div class="phase-nl">Irons</div>
       </div>
-      <div class="phase-actions">
-        <div class="phase-balls-badge" style="background:#FDF3E7;color:#B8600A;">20 balls</div>
-        <div class="phase-chevron">▾</div>
+      <div class="phase-info">
+        <div class="phase-tag" style="background:var(--green-pale);color:var(--green);">7 · 8 · 9 Iron Ladder</div>
+        <div class="phase-title">Work through the bag with rhythm</div>
+        <div class="phase-sub">25 balls · 8 or 9 balls each · 65% max</div>
+      </div>
+      <div class="phase-right">
+        <div class="cb" onclick="chk(event,'2')"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chev">▾</div>
       </div>
     </div>
-
     <div class="phase-body">
-      <div class="setup-section">
-        <div class="section-label">Setup — check before every shot</div>
-        <div class="setup-grid">
-          <div class="setup-item" style="border-left-color:#B8600A;">
-            <div class="setup-item-label">Grip strength</div>
-            <div class="setup-item-val">2 knuckles</div>
-            <div class="setup-item-note">Half a knuckle weaker than irons. Larger head = more face rotation.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B8600A;">
-            <div class="setup-item-label">Tee height</div>
-            <div class="setup-item-val">3–5mm only</div>
-            <div class="setup-item-note">Barely off the mat. High tee promotes the hook.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B8600A;">
-            <div class="setup-item-label">Hand width</div>
-            <div class="setup-item-val">One full hand</div>
-            <div class="setup-item-note">Butt of club one hand's width from body. Prevents shanks.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B8600A;">
-            <div class="setup-item-label">Effort</div>
-            <div class="setup-item-val">65% — choke down</div>
-            <div class="setup-item-note">Half inch down the grip. Sweep it, don't hit it.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="drills-section">
-        <div class="section-label">The one feeling</div>
-        <ul class="drill-list">
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#B8600A;">1</div>
-            <div class="drill-text"><strong>Hold the face through impact</strong> — same fix that resolved the 9 iron overclosing. Back of left hand stays facing target slightly longer than feels natural.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#B8600A;">2</div>
-            <div class="drill-text">Ball should start <strong>slightly right and draw back</strong>. Dead straight is also a pass. Going hard left — still overclosing, hold the face longer.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#B8600A;">3</div>
-            <div class="drill-text"><strong>Check Toptracer FTP every 5 balls.</strong> Target is -2° to +2° throughout. If drifting below -4° — weaken grip another half knuckle. Going right — back to 2.5 knuckles.</div>
-          </li>
+      <div class="bsec">
+        <div class="sec-lbl">The ladder drill</div>
+        <ul class="bullets">
+          <li><span class="bul-icon">🔼</span><div>Start with 9 iron (8 balls), move to 8 iron (8 balls), finish with 7 iron (9 balls). <strong>Same tempo throughout.</strong> The only thing changing is the club — not the rhythm, not the effort level.</div></li>
+          <li><span class="bul-icon">📏</span><div>Check Toptracer FTP after every 5 balls. <strong>Target: 0–3° on all three clubs.</strong> If FTP is drifting above 5° — stop, recheck the grip, reload the 3-1 count.</div></li>
+          <li><span class="bul-icon">🎵</span><div>The 7 iron FTP was 6.27° in S6. The fix is not a different swing thought — it's a slower backswing and a grip check. The 3-1 tempo naturally stops the lash that opens the face.</div></li>
         </ul>
       </div>
-
-      <div class="tracker-section">
-        <div class="section-label">Ball tracker</div>
-        <div class="tracker-dots" id="tracker_hyb"></div>
-        <div class="tracker-count">Hit <span id="count_hyb">0</span> of 20</div>
-      </div>
-
-      <div class="checkpoints-section">
-        <div class="checkpoint">
-          <div class="checkpoint-icon">🎯</div>
-          <div class="checkpoint-text"><strong>After ball 10:</strong> FTP should be between -3° and +2°. Offline below 25 yards. If still hooking hard — go back to 3 balls on the 7 iron, reload the holding feeling, return.</div>
+      <div class="bsec">
+        <div class="sec-lbl">65% effort scale</div>
+        <div class="tempo-scale">
+          <div class="ts-item"><div class="ts-pct" style="color:var(--green);">50%</div><div class="ts-lbl">Phase 1<br>feel only</div></div>
+          <div class="ts-item" style="background:rgba(26,107,60,0.06);"><div class="ts-pct" style="color:var(--green);">65%</div><div class="ts-lbl">This phase<br>ceiling</div></div>
+          <div class="ts-item"><div class="ts-pct" style="color:var(--ink-light);">80%</div><div class="ts-lbl">Driver only<br>later</div></div>
+          <div class="ts-item"><div class="ts-pct" style="color:var(--red);">100%</div><div class="ts-lbl">Never<br>today</div></div>
+        </div>
+        <div class="bx bx-blue">
+          <div class="bx-lbl">The carry will surprise you</div>
+          Your 9 iron best 10 smash shots averaged 136 yards at 79.4 mph. Your worst 10 averaged 110 yards at 78.1 mph — barely any speed difference. At 65% effort with a fluid tempo and centred strike you'll carry the ball further than you expect.
         </div>
       </div>
-
-      <div class="result-section">
-        <div class="result-box target">
-          <div class="result-box-label">Session 4 proof — when neutral it was excellent</div>
-          Shots 6, 7, 8 in S4 had FTP of -1.0°, -2.9°, -2.8° and went 4, 8, 12 yards offline carrying 163–188 yards. That is the pattern to reproduce.
+      <div class="bsec">
+        <div class="tracker">
+          <div class="t-lbl">Ball tracker</div>
+          <div class="dots" id="t2"></div>
+          <div class="t-count">Hit <span id="c2">0</span> of 25</div>
         </div>
-      </div>
-
-      <div class="complete-btn-wrap">
-        <button class="complete-btn" onclick="completePhase('phase2')">Mark Phase Complete</button>
       </div>
     </div>
   </div>
 
   <!-- PHASE 3 -->
-  <div class="phase" id="phase3">
-    <div class="phase-header" onclick="togglePhase('phase3')">
-      <div class="phase-number" style="background:#B81A1A;">3</div>
-      <div class="phase-header-text">
-        <div class="phase-eyebrow" style="color:#B81A1A;">Priority Fix</div>
-        <div class="phase-name">Driver</div>
-        <div class="phase-detail">Slow swing drill — feel the face close at half speed first</div>
+  <div class="phase" id="p3">
+    <div class="phase-hdr" onclick="tog('3')">
+      <div class="phase-num-block" style="background:var(--amber);">
+        <div class="phase-n">3</div><div class="phase-nl">Wedges</div>
       </div>
-      <div class="phase-actions">
-        <div class="phase-balls-badge" style="background:#FAEAEA;color:#B81A1A;">40 balls</div>
-        <div class="phase-chevron">▾</div>
+      <div class="phase-info">
+        <div class="phase-tag" style="background:var(--amber-pale);color:var(--amber);">PW + Gap Wedge</div>
+        <div class="phase-title">Wedge tempo — softer hands, slower back</div>
+        <div class="phase-sub">15 balls · 60% · feel the club head</div>
+      </div>
+      <div class="phase-right">
+        <div class="cb" onclick="chk(event,'3')"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chev">▾</div>
       </div>
     </div>
-
     <div class="phase-body">
-      <div class="setup-section">
-        <div class="section-label">Setup checklist — every single ball, no exceptions</div>
-        <div class="setup-grid">
-          <div class="setup-item" style="border-left-color:#B81A1A;">
-            <div class="setup-item-label">Ball position</div>
-            <div class="setup-item-val">Inside left heel</div>
-            <div class="setup-item-note">Further forward than any other club.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B81A1A;">
-            <div class="setup-item-label">Tee height</div>
-            <div class="setup-item-val">Half ball above crown</div>
-            <div class="setup-item-note">Check it visually. Not less. Not more.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B81A1A;">
-            <div class="setup-item-label">Grip</div>
-            <div class="setup-item-val">2.5 knuckles</div>
-            <div class="setup-item-note">People unconsciously go weak on driver. Recheck every ball.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B81A1A;">
-            <div class="setup-item-label">Grip pressure</div>
-            <div class="setup-item-val">3–4 / 10</div>
-            <div class="setup-item-note">Lower than irons. Tight forearms block face rotation.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B81A1A;">
-            <div class="setup-item-label">Weight</div>
-            <div class="setup-item-val">55% right side</div>
-            <div class="setup-item-note">At address. Promotes upward strike.</div>
-          </div>
-          <div class="setup-item" style="border-left-color:#B81A1A;">
-            <div class="setup-item-label">Target line</div>
-            <div class="setup-item-val">Right of centre</div>
-            <div class="setup-item-note">Aim right. Frees you to swing inside-out.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="drills-section">
-        <div class="section-label">Balls 1–20 · Slow swing drill</div>
-        <ul class="drill-list">
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#B81A1A;">1</div>
-            <div class="drill-text"><strong>First 5 balls at 50% effort.</strong> So slow you can physically feel the clubface through impact. You are learning the sensation — not trying to hit it anywhere.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#B81A1A;">2</div>
-            <div class="drill-text">The one feeling: <strong>forearms rotating left through impact</strong> — like turning a door handle to the left as you swing through. This is the physical action that closes the face.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#B81A1A;">3</div>
-            <div class="drill-text"><strong>Gradually build to 65%</strong> across the next 15 balls. Only add speed when the face feels like it's closing. If it opens again — drop back to 50%.</div>
-          </li>
+      <div class="bsec">
+        <div class="sec-lbl">PW — 8 balls</div>
+        <ul class="bullets">
+          <li><span class="bul-icon">⚠️</span><div><strong>PW hit 9.61° FTP in S6 — the worst reading ever.</strong> The fix is purely the grip and tempo. Slower backswing stops the instinctive lash that opens the face on short clubs.</div></li>
+          <li><span class="bul-icon">🎵</span><div>Wedges particularly benefit from feeling the club head in the backswing. Grip pressure <strong>3 out of 10</strong> — looser than irons. If you can feel the weight of the head you're holding it right.</div></li>
+          <li><span class="bul-icon">🎯</span><div>Target: FTP 0–4°. Carry 105–115 yards Toptracer. These are the right numbers for a smooth 60% PW.</div></li>
         </ul>
       </div>
-
-      <div class="drills-section" style="border-top:1px solid var(--rule);">
-        <div class="section-label">Balls 21–40 · Build up</div>
-        <ul class="drill-list">
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#444;">4</div>
-            <div class="drill-text"><strong>70% maximum</strong> from here. Setup checklist, one practice swing, commit within 10 seconds.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#444;">5</div>
-            <div class="drill-text">One swing thought only: <strong>forearms rotate, swing right.</strong> Nothing else.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#444;">6</div>
-            <div class="drill-text">Bad shot — <strong>step back. Recheck tee height and grip.</strong> Those two cause 80% of open face shots. Never rush the next ball after a bad one.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#444;">7</div>
-            <div class="drill-text">Good shot — <strong>note the feeling immediately.</strong> Replicate it on the very next ball while it's fresh.</div>
-          </li>
+      <div class="bsec">
+        <div class="sec-lbl">Gap wedge (52°) — 7 balls</div>
+        <ul class="bullets">
+          <li><span class="bul-icon">🆕</span><div>Same tempo, same grip. <strong>Note carry average — this is still new data on a new club.</strong> Every session builds the picture.</div></li>
+          <li><span class="bul-icon">📸</span><div>Screenshot Toptracer after all 7 balls. Gap wedge carry average updates the yardage card.</div></li>
         </ul>
-      </div>
-
-      <div class="tracker-section">
-        <div class="section-label">Ball tracker</div>
-        <div class="tracker-dots" id="tracker_drv"></div>
-        <div class="tracker-count">Hit <span id="count_drv">0</span> of 40</div>
-      </div>
-
-      <div class="checkpoints-section">
-        <div class="checkpoint">
-          <div class="checkpoint-icon">📊</div>
-          <div class="checkpoint-text"><strong>After ball 10 (50% swings):</strong> FTP should be below 6° even at half speed. If not — grip has drifted weak. Recheck before every remaining ball.</div>
-        </div>
-        <div class="checkpoint">
-          <div class="checkpoint-icon">🎯</div>
-          <div class="checkpoint-text"><strong>After ball 25:</strong> FTP trending toward 4°. If you feel a draw — build on that exact sensation immediately on the next ball.</div>
-        </div>
-        <div class="checkpoint">
-          <div class="checkpoint-icon">✅</div>
-          <div class="checkpoint-text"><strong>After ball 40:</strong> Count your neutral face shots (FTP ±3°). Beat the session 5 record of 3 out of 17. Any improvement here is meaningful progress.</div>
+        <div class="bx bx-amber">
+          <div class="bx-lbl">A slower backswing creates more distance on wedges</div>
+          Your PW best 5 smash shots were hit at 75.4 mph — 2.5 mph slower than your overall average. You compress the ball better when you don't rush. Same applies to the gap wedge.
         </div>
       </div>
-
-      <div class="result-section">
-        <div class="result-box target">
-          <div class="result-box-label">Targets to beat from Session 5</div>
-          FTP: 8.02° → below 4.0° &nbsp;·&nbsp; Offline: 74 yds → below 40 yds &nbsp;·&nbsp; Mishit: 30% → below 20%
+      <div class="bsec">
+        <div class="tracker">
+          <div class="t-lbl">Ball tracker</div>
+          <div class="dots" id="t3"></div>
+          <div class="t-count">Hit <span id="c3">0</span> of 15</div>
         </div>
-        <div class="result-box warn">
-          <div class="result-box-label">If nothing is clicking</div>
-          Drop to 50% and focus only on the forearm rotation feeling. Speed comes last. A 50% swing with a square face goes further than a 100% swing with it open.
-        </div>
-      </div>
-
-      <div class="complete-btn-wrap">
-        <button class="complete-btn" onclick="completePhase('phase3')">Mark Phase Complete</button>
       </div>
     </div>
   </div>
 
   <!-- PHASE 4 -->
-  <div class="phase" id="phase4">
-    <div class="phase-header" onclick="togglePhase('phase4')">
-      <div class="phase-number" style="background:#444;">4</div>
-      <div class="phase-header-text">
-        <div class="phase-eyebrow" style="color:#888;">Free Play</div>
-        <div class="phase-name">Tee Shot Sim</div>
-        <div class="phase-detail">Driver or hybrid — make the call, commit, go</div>
+  <div class="phase" id="p4">
+    <div class="phase-hdr" onclick="tog('4')">
+      <div class="phase-num-block" style="background:var(--red);">
+        <div class="phase-n">4</div><div class="phase-nl">Driver</div>
       </div>
-      <div class="phase-actions">
-        <div class="phase-balls-badge" style="background:#F0F0F0;color:#444;">10 balls</div>
-        <div class="phase-chevron">▾</div>
+      <div class="phase-info">
+        <div class="phase-tag" style="background:var(--red-pale);color:var(--red);">Driver · 80% ceiling</div>
+        <div class="phase-title">Control beats speed — the data proves it</div>
+        <div class="phase-sub">20 balls · 80% max · let it happen</div>
+      </div>
+      <div class="phase-right">
+        <div class="cb" onclick="chk(event,'4')"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chev">▾</div>
       </div>
     </div>
-
     <div class="phase-body">
-      <div class="drills-section">
-        <div class="section-label">Rules for this phase</div>
-        <ul class="drill-list">
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#444;">1</div>
-            <div class="drill-text">Before each ball: <strong>driver or hybrid?</strong> Wide open fairway → driver. Tight hole → hybrid. Practice the decision, not just the shot.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#444;">2</div>
-            <div class="drill-text">Setup check, one practice swing, <strong>10 seconds max over the ball</strong>, commit and go. No swing thoughts after the practice swing.</div>
-          </li>
-          <li class="drill-item">
-            <div class="drill-bullet" style="background:#444;">3</div>
-            <div class="drill-text"><strong>Finish on a good shot.</strong> Drop to a 7 iron for the last ball if needed. Leave the range feeling positive.</div>
-          </li>
+      <div class="bsec">
+        <div class="sec-lbl">Setup — every ball</div>
+        <div class="setup-grid">
+          <div class="si" style="border-left-color:var(--red);"><div class="si-lbl">Ball position</div><div class="si-val">Inside left heel</div><div class="si-note">Further forward than any other club.</div></div>
+          <div class="si" style="border-left-color:var(--red);"><div class="si-lbl">Tee height</div><div class="si-val">Half ball above crown</div><div class="si-note">Check visually before every ball.</div></div>
+          <div class="si" style="border-left-color:var(--red);"><div class="si-lbl">Grip pressure</div><div class="si-val">3 out of 10</div><div class="si-note">Looser than irons. Arms relaxed.</div></div>
+          <div class="si" style="border-left-color:var(--red);"><div class="si-lbl">Effort ceiling</div><div class="si-val">80% only</div><div class="si-note">88–93 mph is your sweet spot. Not 95.</div></div>
+        </div>
+      </div>
+      <div class="bsec">
+        <div class="sec-lbl">The only swing thought</div>
+        <ul class="bullets">
+          <li><span class="bul-icon">🎵</span><div><strong>Three counts back, one count through.</strong> The backswing should feel longer than the downswing. That's the correct feeling. If the downswing feels rushed — the backswing wasn't long enough.</div></li>
+          <li><span class="bul-icon">🔄</span><div>Forearms rotate left through impact — door handle feeling. This is what closes the face. But at 3-1 tempo it happens naturally rather than being forced.</div></li>
+          <li><span class="bul-icon">➡️</span><div>Aim right of centre. Let the draw come to you. Don't aim left and steer — aim right and swing freely.</div></li>
+        </ul>
+        <div class="bx bx-red">
+          <div class="bx-lbl">The data case for 80%</div>
+          At 88–93 mph your driver FTP averages 2.68° — practically straight. At 93+ mph it goes to 5.38° — that's 49 yards offline average. Swinging harder costs you 46 yards of direction. 80% effort produces 88–93 mph naturally. That's the target zone.
+        </div>
+      </div>
+      <div class="bsec">
+        <div class="sec-lbl">Balls 1–10 · rhythm only</div>
+        <ul class="bullets">
+          <li><span class="bul-icon">🎵</span><div>Say the 3-1 count. Feel the pause at the top. 70% effort. The ball goes further than you think.</div></li>
         </ul>
       </div>
-
-      <div class="result-section">
-        <div class="result-box info">
-          <div class="result-box-label">Before you leave the bay</div>
-          Screenshot the full Toptracer session summary. Key numbers to note: driver FTP average, driver offline average, hybrid FTP average, how many neutral face driver shots.
-        </div>
-        <div class="result-box target">
-          <div class="result-box-label">Course readiness gate</div>
-          Driver FTP below 4° AND hybrid offline below 25 yards consistently = book the round. The irons are already there. These are the final two gates.
-        </div>
+      <div class="bsec">
+        <div class="sec-lbl">Balls 11–20 · build to 80%</div>
+        <ul class="bullets">
+          <li><span class="bul-icon">📈</span><div>Build gradually to 80%. <strong>The ceiling is 80% — not 85%, not 90%.</strong> Every time you feel the urge to add more — that's the lash. Resist it.</div></li>
+          <li><span class="bul-icon">🎯</span><div>Count your neutral face shots (FTP ±3°). Beat your S6 record of 15 out of 32. Any number above 47% is progress.</div></li>
+        </ul>
       </div>
-
-      <div class="complete-btn-wrap">
-        <button class="complete-btn" onclick="completePhase('phase4')">Mark Phase Complete</button>
+      <div class="bsec">
+        <div class="tracker">
+          <div class="t-lbl">Ball tracker</div>
+          <div class="dots" id="t4"></div>
+          <div class="t-count">Hit <span id="c4">0</span> of 20</div>
+        </div>
+        <div class="milestone" style="margin-top:0;"><span>📊</span><div>After every 5 balls check Toptracer. <strong>FTP above 5° = you're lashing it.</strong> Drop back to 70% and reload the 3-1 count before the next ball.</div></div>
       </div>
     </div>
   </div>
 
-  <!-- DONE BANNER -->
+  <!-- PHASE 5 -->
+  <div class="phase" id="p5">
+    <div class="phase-hdr" onclick="tog('5')">
+      <div class="phase-num-block" style="background:#555;">
+        <div class="phase-n">5</div><div class="phase-nl">Course</div>
+      </div>
+      <div class="phase-info">
+        <div class="phase-tag" style="background:#F0F0F0;color:#555;">Course Simulation</div>
+        <div class="phase-title">Play holes in your head</div>
+        <div class="phase-sub">10 balls · mixed clubs · pre-shot routine</div>
+      </div>
+      <div class="phase-right">
+        <div class="cb" onclick="chk(event,'5')"><svg viewBox="0 0 12 12" fill="none" width="12" height="12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="chev">▾</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="bsec">
+        <ul class="bullets">
+          <li><span class="bul-icon">🏌️</span><div><strong>Pick a Hartswood hole.</strong> Decide: driver or hybrid off the tee? Pick the club. Go through the full pre-shot routine — grip check, one practice swing, 10 seconds over the ball, commit and swing.</div></li>
+          <li><span class="bul-icon">🎵</span><div>The 3-1 tempo is still the only swing thought. On the course there's no time for mechanics — the tempo replaces all of it.</div></li>
+          <li><span class="bul-icon">✅</span><div><strong>Finish on a good shot.</strong> Drop to 9 iron for the last ball if needed. Leave the range feeling the rhythm, not fighting it.</div></li>
+          <li><span class="bul-icon">📸</span><div>Screenshot full Toptracer session summary. Key numbers to send back: driver FTP average, gap wedge carry, any club where FTP was below 2°.</div></li>
+        </ul>
+        <div class="bx bx-green">
+          <div class="bx-lbl">What this session builds toward</div>
+          The blowup holes at Hartswood — the 8s and 9s — almost all start with a lashed tee shot that goes in trouble. A controlled 80% driver that goes 210 yards in the fairway sets up a manageable second shot. A 93 mph driver going 230 yards in the trees sets up a penalty drop. Tempo is the shot-saver.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="done-banner" id="doneBanner">
-    <div class="done-num">✓</div>
+    <div class="done-icon">🏌️</div>
     <div class="done-title">Session Complete</div>
-    <div class="done-body">Screenshot Toptracer before you leave the bay.<br><strong>Driver FTP and hybrid offline</strong> are the two numbers that matter. Send them over.</div>
+    <div class="done-body">Screenshot Toptracer before leaving.<br><strong>Driver FTP · Gap wedge carry · any PW reading</strong><br>Send those three numbers back.</div>
   </div>
 
-  <div class="reset-wrap">
-    <button class="reset-btn" onclick="resetAll()">Reset Session</button>
-  </div>
-
+  <div class="reset-wrap"><button class="reset-btn" onclick="resetAll()">Reset Session</button></div>
 </div>
 
 <script>
-  // Simple, clean state - no localStorage dependency for phase completion
-  // Uses sessionStorage as fallback which is more compatible
-  var completed = {};
-  var trackerHits = { hyb: [], drv: [] };
+var TOTAL = 5;
+var SK = 's8-2026';
+var sizes = {1:15,2:25,3:15,4:20};
+var done = new Set();
 
-  function getStorage() {
-    try { return localStorage; } catch(e) { return sessionStorage; }
+function loadState(){
+  try{ var d=JSON.parse(localStorage.getItem(SK+'_done')||'[]'); d.forEach(function(x){done.add(String(x));}); }catch(e){}
+}
+
+function saveState(){
+  try{ localStorage.setItem(SK+'_done',JSON.stringify([...done])); }catch(e){}
+}
+
+function upd(){
+  var pct=done.size/TOTAL*100;
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progLbl').textContent=done.size+' / '+TOTAL+' phases';
+  var b=document.getElementById('doneBanner');
+  if(b) b.classList.toggle('show',done.size>=TOTAL);
+}
+
+function chk(e,id){
+  e.stopPropagation();
+  var sid=String(id);
+  var el=document.getElementById('p'+id);
+  if(done.has(sid)){ done.delete(sid); el.classList.remove('done'); }
+  else{ done.add(sid); el.classList.add('done'); el.classList.remove('open'); }
+  saveState(); upd();
+}
+
+function tog(id){
+  document.getElementById('p'+id).classList.toggle('open');
+}
+
+function buildTracker(id,total){
+  var c=document.getElementById('t'+id);
+  var cnt=document.getElementById('c'+id);
+  if(!c||!cnt) return;
+  var sk=SK+'_t'+id;
+  var hits=[];
+  try{ hits=JSON.parse(localStorage.getItem(sk)||'[]'); }catch(e){}
+  c.innerHTML='';
+  for(var i=0;i<total;i++){
+    (function(idx){
+      var d=document.createElement('div');
+      d.className='dot'+(hits.indexOf(idx)>-1?' hit':'');
+      d.addEventListener('click',function(){
+        var p=hits.indexOf(idx);
+        if(p>-1){ hits.splice(p,1); d.classList.remove('hit'); }
+        else{ hits.push(idx); d.classList.add('hit'); }
+        try{ localStorage.setItem(sk,JSON.stringify(hits)); }catch(e){}
+        cnt.textContent=hits.length;
+      });
+      c.appendChild(d);
+    })(i);
   }
+  cnt.textContent=hits.length;
+}
 
-  function loadState() {
-    try {
-      var store = getStorage();
-      var c = store.getItem('rs_completed');
-      if (c) completed = JSON.parse(c);
-      var h = store.getItem('rs_hyb');
-      if (h) trackerHits.hyb = JSON.parse(h);
-      var d = store.getItem('rs_drv');
-      if (d) trackerHits.drv = JSON.parse(d);
-    } catch(e) {}
-  }
-
-  function saveState() {
-    try {
-      var store = getStorage();
-      store.setItem('rs_completed', JSON.stringify(completed));
-      store.setItem('rs_hyb', JSON.stringify(trackerHits.hyb));
-      store.setItem('rs_drv', JSON.stringify(trackerHits.drv));
-    } catch(e) {}
-  }
-
-  function togglePhase(id) {
-    var el = document.getElementById(id);
-    var isOpen = el.classList.contains('open');
-    // Close all
-    ['phase1','phase2','phase3','phase4'].forEach(function(p) {
-      document.getElementById(p).classList.remove('open');
-    });
-    // Toggle clicked
-    if (!isOpen) el.classList.add('open');
-  }
-
-  function completePhase(id) {
-    var el = document.getElementById(id);
-    completed[id] = true;
-    el.classList.add('completed');
-    el.classList.remove('open');
-    saveState();
-    updateProgress();
-    // Auto open next
-    var order = ['phase1','phase2','phase3','phase4'];
-    var idx = order.indexOf(id);
-    if (idx < order.length - 1) {
-      var next = order[idx + 1];
-      if (!completed[next]) {
-        document.getElementById(next).classList.add('open');
-      }
-    }
-    checkDone();
-  }
-
-  function updateProgress() {
-    var count = Object.keys(completed).length;
-    var pct = (count / 4) * 100;
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressLabel').textContent = count + ' / 4 phases';
-  }
-
-  function checkDone() {
-    if (Object.keys(completed).length >= 4) {
-      document.getElementById('doneBanner').classList.add('show');
-    }
-  }
-
-  function buildTracker(key, containerId, countId, total) {
-    var container = document.getElementById(containerId);
-    var counter = document.getElementById(countId);
-    container.innerHTML = '';
-    var hits = trackerHits[key] || [];
-    for (var i = 0; i < total; i++) {
-      (function(idx) {
-        var dot = document.createElement('div');
-        dot.className = 't-dot' + (hits.indexOf(idx) > -1 ? ' hit' : '');
-        dot.addEventListener('click', function() {
-          var pos = trackerHits[key].indexOf(idx);
-          if (pos > -1) {
-            trackerHits[key].splice(pos, 1);
-            dot.classList.remove('hit');
-          } else {
-            trackerHits[key].push(idx);
-            dot.classList.add('hit');
-          }
-          counter.textContent = trackerHits[key].length;
-          saveState();
-        });
-        container.appendChild(dot);
-      })(i);
-    }
-    counter.textContent = hits.length;
-  }
-
-  function resetAll() {
-    completed = {};
-    trackerHits = { hyb: [], drv: [] };
-    saveState();
-    ['phase1','phase2','phase3','phase4'].forEach(function(p) {
-      var el = document.getElementById(p);
-      el.classList.remove('completed','open');
-    });
-    buildTracker('hyb', 'tracker_hyb', 'count_hyb', 20);
-    buildTracker('drv', 'tracker_drv', 'count_drv', 40);
-    document.getElementById('doneBanner').classList.remove('show');
-    updateProgress();
-    // Open first phase
-    document.getElementById('phase1').classList.add('open');
-  }
-
-  // Init
-  loadState();
-  buildTracker('hyb', 'tracker_hyb', 'count_hyb', 20);
-  buildTracker('drv', 'tracker_drv', 'count_drv', 40);
-
-  // Apply saved completion state
-  ['phase1','phase2','phase3','phase4'].forEach(function(p) {
-    if (completed[p]) {
-      document.getElementById(p).classList.add('completed');
-    }
+function resetAll(){
+  done.clear(); saveState();
+  document.querySelectorAll('.phase').forEach(function(p){ p.classList.remove('done','open'); });
+  Object.keys(sizes).forEach(function(id){
+    try{ localStorage.removeItem(SK+'_t'+id); }catch(e){}
+    buildTracker(id,sizes[id]);
   });
+  document.getElementById('p1').classList.add('open');
+  upd();
+}
 
-  updateProgress();
-  checkDone();
+loadState();
+Object.keys(sizes).forEach(function(id){ buildTracker(id,sizes[id]); });
+done.forEach(function(id){ var el=document.getElementById('p'+id); if(el) el.classList.add('done'); });
+upd();
 
-  // Open first incomplete phase on load
-  var order = ['phase1','phase2','phase3','phase4'];
-  var opened = false;
-  for (var i = 0; i < order.length; i++) {
-    if (!completed[order[i]] && !opened) {
-      document.getElementById(order[i]).classList.add('open');
-      opened = true;
-    }
+for(var i=1;i<=TOTAL;i++){
+  if(!done.has(String(i))){
+    var el=document.getElementById('p'+i);
+    if(el){ el.classList.add('open'); break; }
   }
+}
 </script>
-
 </body>
 </html>
